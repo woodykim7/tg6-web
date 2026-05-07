@@ -194,7 +194,55 @@
   });
 })();
 
-// 5. 부드러운 스크롤 (앵커 링크)
+// 5. 사진 라이트박스 — 사진 클릭 시 확대
+(function imageLightbox() {
+  const lb = document.getElementById('imageLightbox');
+  const img = document.getElementById('imageLightboxImg');
+  const caption = document.getElementById('imageLightboxCaption');
+  const closeBtn = document.getElementById('imageLightboxClose');
+  if (!lb || !img) return;
+
+  function open(url, captionText) {
+    img.src = url;
+    img.alt = captionText || '';
+    caption.textContent = captionText || '';
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.hidden = true;
+    img.removeAttribute('src');
+    caption.textContent = '';
+    document.body.style.overflow = '';
+  }
+
+  function getBgUrl(el) {
+    const bg = el.style.backgroundImage || getComputedStyle(el).backgroundImage || '';
+    const m = bg.match(/url\(\s*['"]?(.+?)['"]?\s*\)/);
+    return m ? m[1] : null;
+  }
+
+  // why-section + explore-section 사진들
+  const selectors = '.why-img, .photo-card .photo';
+  document.querySelectorAll(selectors).forEach(el => {
+    el.addEventListener('click', () => {
+      const url = getBgUrl(el);
+      if (!url) return; // 실제 이미지 없는 카드는 무시
+      // 캡션: 같은 카드 안의 h3 또는 p 텍스트
+      const card = el.closest('.why-card, .photo-card');
+      const captionText = card?.querySelector('h3, p')?.textContent.trim() || '';
+      open(url, captionText);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  lb.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !lb.hidden) close();
+  });
+})();
+
+// 6. 부드러운 스크롤 (앵커 링크)
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);
