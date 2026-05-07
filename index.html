@@ -78,6 +78,74 @@
         </div>
       </section>
 
+      <!-- ===== 1.5. CÔNG NHÂN NÓI GÌ (비디오 6개) ===== -->
+      <section class="voices-section" id="voices">
+        <h2 class="section-title">Công nhân nói gì về TG6</h2>
+        <p class="section-sub">Bấm để xem video — <em>Tap to watch</em></p>
+
+        <div class="voices-grid">
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Chị Linh — 3 năm làm việc</h3>
+              <p><em>"Ban đầu tôi cũng nghe đồn TG6 khó. Nhưng làm rồi mới biết: chỉ là nơi làm việc chuyên nghiệp."</em></p>
+            </div>
+          </article>
+
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Anh Hùng — 5 năm làm việc</h3>
+              <p><em>"Lương đúng hẹn, không bị trừ vô lý. Tôi đã giới thiệu 3 người bạn đến đây làm."</em></p>
+            </div>
+          </article>
+
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Chị Mai — Công nhân mới 6 tháng</h3>
+              <p><em>"Tôi là người mới, chưa có kinh nghiệm. Mọi người hướng dẫn rất tận tình."</em></p>
+            </div>
+          </article>
+
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Chị Hoa — Tổ trưởng chuyền</h3>
+              <p><em>"Từ công nhân may, tôi được đào tạo lên tổ trưởng. Cơ hội phát triển rất rõ ràng."</em></p>
+            </div>
+          </article>
+
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Anh Tuấn — 2 năm làm việc</h3>
+              <p><em>"Nhà xưởng mát lạnh, không đổ mồ hôi. Canteen sạch sẽ, ăn ngon."</em></p>
+            </div>
+          </article>
+
+          <article class="voice-card" data-video="" data-poster="">
+            <div class="voice-thumb">
+              <span class="voice-play" aria-label="Phát video">▶</span>
+            </div>
+            <div class="voice-info">
+              <h3>Chị Thảo — 4 năm làm việc</h3>
+              <p><em>"Phúc lợi đầy đủ: thưởng Tết, quà sinh nhật, du lịch. Tôi yêu công ty này."</em></p>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <!-- ===== 2. VÌ SAO CHỌN TG6 ===== -->
       <section class="why-section" id="why">
         <h2 class="section-title">Vì sao nên chọn TG6?</h2>
@@ -381,6 +449,22 @@
         <span>Z</span>
       </a>
       <a href="#apply" class="fab fab-apply">NỘP ĐƠN NGAY</a>
+    </div>
+
+    <!-- 비디오 모달 (선택 시 재생) -->
+    <div class="video-modal" id="videoModal" hidden>
+      <div class="video-modal-backdrop" data-close></div>
+      <div class="video-modal-inner">
+        <button class="video-modal-close" id="videoModalClose" aria-label="Đóng">×</button>
+        <div class="video-modal-player">
+          <video id="modalVideo" controls playsinline preload="metadata"></video>
+          <div class="video-modal-empty" id="videoModalEmpty">
+            <span>🎬</span>
+            <p>Video sẽ được cập nhật<br><em>Video coming soon</em></p>
+          </div>
+        </div>
+        <div class="video-modal-caption" id="videoModalCaption"></div>
+      </div>
     </div>
 
   </div>

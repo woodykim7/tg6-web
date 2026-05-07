@@ -143,21 +143,21 @@ body {
   background-image: url('../images/factory-bg.png');
   background-size: cover;
   background-position: center;
-  filter: brightness(0.7);
+  filter: brightness(1.08) contrast(1.12) saturate(1.15);
 }
 .hero-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10,61,40,0.3) 0%, rgba(10,61,40,0.85) 100%);
+  background: linear-gradient(180deg, rgba(10,61,40,0.02) 0%, rgba(10,61,40,0.25) 100%);
 }
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(10,61,40,0.45) 0%,
-    rgba(10,61,40,0.75) 60%,
-    rgba(10,61,40,0.95) 100%);
+    rgba(10,61,40,0.05) 0%,
+    rgba(10,61,40,0.20) 60%,
+    rgba(10,61,40,0.55) 100%);
 }
 .hero-content {
   position: relative;
@@ -266,21 +266,140 @@ body {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .btn-primary {
-  background: var(--orange);
+  background: rgba(245,126,44,0.38);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(245,126,44,0.5);
+  border: 1px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 6px 18px rgba(245,126,44,0.18);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
 }
 .btn-primary:hover, .btn-primary:active {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(245,126,44,0.6);
+  background: rgba(245,126,44,0.65);
+  box-shadow: 0 10px 22px rgba(245,126,44,0.4);
 }
 .btn-secondary {
-  background: rgba(255,255,255,0.95);
-  color: var(--green-dark);
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.55);
 }
 .btn-secondary:hover, .btn-secondary:active {
   transform: translateY(-2px);
-  background: #fff;
+  background: rgba(255,255,255,0.55);
+  color: var(--green-dark);
+  text-shadow: none;
+}
+
+/* ============================================================
+   Hero 등장 애니메이션 — 배경 먼저, 콘텐츠 순차 페이드인
+   ============================================================ */
+
+/* 배경: 페이드인 + 천천히 줌인 (Ken Burns) */
+.hero-bg {
+  animation: heroBgReveal 20s ease-out forwards;
+}
+@keyframes heroBgReveal {
+  0%   { opacity: 0; transform: scale(1.0); }
+  6%   { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1.10); }
+}
+
+/* 오버레이: 배경 보인 뒤에 부드럽게 덮음 */
+.hero-bg::after {
+  opacity: 0;
+  animation: heroOverlayIn 1.4s ease-out 0.7s forwards;
+}
+.hero-overlay {
+  opacity: 0;
+  animation: heroOverlayIn 1.6s ease-out 0.9s forwards;
+}
+@keyframes heroOverlayIn {
+  to { opacity: 1; }
+}
+
+/* 콘텐츠: 처음 안 보이게 + 순차 등장 */
+.recruit-badge,
+.hero-title,
+.three-good li,
+.hero-cta .btn-primary,
+.hero-cta .btn-secondary {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.recruit-badge {
+  animation: heroBadgeIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.0s forwards;
+}
+.hero-title {
+  animation: heroFadeUp 0.7s ease-out 1.3s forwards;
+}
+.three-good li:nth-child(1) { animation: heroFadeLeft 0.6s ease-out 1.55s forwards; }
+.three-good li:nth-child(2) { animation: heroFadeLeft 0.6s ease-out 1.75s forwards; }
+.three-good li:nth-child(3) { animation: heroFadeLeft 0.6s ease-out 1.95s forwards; }
+
+.hero-cta .btn-primary {
+  animation: heroBtnIn 0.6s ease-out 2.25s forwards;
+}
+.hero-cta .btn-secondary {
+  animation: heroBtnIn 0.6s ease-out 2.45s forwards;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroFadeLeft {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes heroBadgeIn {
+  0%   { opacity: 0; transform: scale(0.7); }
+  60%  { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes heroBtnIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 추천 버튼은 등장 후 살짝 호흡하도록 */
+.hero-cta .btn-primary {
+  position: relative;
+}
+.hero-cta .btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  border: 2px solid rgba(245, 126, 44, 0.6);
+  opacity: 0;
+  animation: btnGlow 2.4s ease-out 3.0s infinite;
+  pointer-events: none;
+}
+@keyframes btnGlow {
+  0%   { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(1.08); }
+}
+
+/* 모션 줄이기 선호 사용자 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg,
+  .hero-bg::after,
+  .hero-overlay,
+  .recruit-badge,
+  .hero-title,
+  .three-good li,
+  .hero-cta .btn-primary,
+  .hero-cta .btn-secondary,
+  .hero-cta .btn-primary::before {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ============================================================
@@ -302,6 +421,186 @@ body {
   margin-bottom: 18px;
 }
 .section-sub.light { color: rgba(255,255,255,0.75); }
+
+/* ============================================================
+   1.5. VOICES — 공장 직원 영상 6개
+   ============================================================ */
+.voices-section {
+  padding: 24px 16px 16px;
+  background: #fff;
+}
+.voices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.voice-card {
+  background: var(--card-bg, #fff);
+  border-radius: var(--radius, 14px);
+  overflow: hidden;
+  box-shadow: var(--shadow, 0 4px 14px rgba(0,0,0,0.08));
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.voice-card:hover, .voice-card:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.voice-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 60%, #1a1a1a 100%);
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-items: center;
+}
+.voice-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 100%);
+}
+.voice-play {
+  position: relative;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  color: var(--green-dark, #1f6b44);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  padding-left: 3px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  transition: transform 0.15s ease;
+}
+.voice-card:hover .voice-play {
+  transform: scale(1.1);
+  background: #fff;
+}
+.voice-info {
+  padding: 10px 12px 12px;
+}
+.voice-info h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-dark, #1f6b44);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.voice-info p {
+  font-size: 12px;
+  color: var(--text-main, #333);
+  line-height: 1.45;
+}
+.voice-info p em {
+  font-style: italic;
+  color: #555;
+}
+
+/* 비디오 모달 */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.video-modal[hidden] { display: none; }
+.video-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.video-modal-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+}
+.video-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.video-modal-close:hover { background: rgba(0,0,0,0.85); }
+.video-modal-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #000;
+}
+.video-modal-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.video-modal-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  font-size: 14px;
+  pointer-events: none;
+}
+.video-modal-empty span {
+  display: block;
+  font-size: 56px;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+.video-modal-empty em {
+  font-size: 12px;
+  opacity: 0.6;
+  font-style: italic;
+}
+.video-modal-caption {
+  background: #fff;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-main, #333);
+}
+.video-modal-caption strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green-dark, #1f6b44);
+  margin-bottom: 4px;
+}
+.video-modal-caption em {
+  font-style: italic;
+  color: #555;
+}
 
 /* ============================================================
    2. WHY GRID — 사진 + 캡션 + 설명 (8개 2열)

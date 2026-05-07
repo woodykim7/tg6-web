@@ -137,7 +137,64 @@
   }
 })();
 
-// 4. 부드러운 스크롤 (앵커 링크)
+// 4. 비디오 카드 — 클릭 시 모달에서 영상 재생
+(function voiceCards() {
+  const cards = document.querySelectorAll('.voice-card');
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  const empty = document.getElementById('videoModalEmpty');
+  const caption = document.getElementById('videoModalCaption');
+  const closeBtn = document.getElementById('videoModalClose');
+  if (!modal || !video) return;
+
+  function openModal(card) {
+    const src = card.dataset.video;
+    const poster = card.dataset.poster;
+    const title = card.querySelector('h3')?.textContent || '';
+    const desc = card.querySelector('p')?.innerHTML || '';
+
+    caption.innerHTML = `<strong>${title}</strong>${desc}`;
+
+    if (src) {
+      video.src = src;
+      if (poster) video.poster = poster;
+      video.style.display = '';
+      empty.style.display = 'none';
+      video.play().catch(() => {});
+    } else {
+      // 비디오 파일이 아직 없으면 안내 화면
+      video.removeAttribute('src');
+      video.load();
+      video.style.display = 'none';
+      empty.style.display = '';
+    }
+
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    document.body.style.overflow = '';
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  modal.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeModal);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+})();
+
+// 5. 부드러운 스크롤 (앵커 링크)
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);
