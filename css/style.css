@@ -938,6 +938,7 @@ body {
 .fab {
   width: 48px;
   height: 48px;
+  flex: 0 0 48px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -953,12 +954,16 @@ body {
 .fab-zalo { background: #2196f3; font-size: 16px; }
 .fab-apply {
   width: auto;
-  padding: 0 20px;
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 0 16px;
   height: 48px;
   border-radius: 999px;
   background: var(--orange);
-  font-size: 13px;
-  letter-spacing: 0.3px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 /* 모바일 — fab 위치 조정 */
