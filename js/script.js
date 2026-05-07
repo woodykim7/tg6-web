@@ -137,7 +137,7 @@
   }
 })();
 
-// 4. 비디오 카드 — 클릭 시 모달에서 영상 재생
+// 4. 비디오 카드 — 클릭 시 모달에서 영상 재생 (뒤로가기 지원)
 (function voiceCards() {
   const cards = document.querySelectorAll('.voice-card');
   const modal = document.getElementById('videoModal');
@@ -146,6 +146,8 @@
   const caption = document.getElementById('videoModalCaption');
   const closeBtn = document.getElementById('videoModalClose');
   if (!modal || !video) return;
+
+  let historyPushed = false;
 
   function openModal(card) {
     const src = card.dataset.video;
@@ -162,7 +164,6 @@
       empty.style.display = 'none';
       video.play().catch(() => {});
     } else {
-      // 비디오 파일이 아직 없으면 안내 화면
       video.removeAttribute('src');
       video.load();
       video.style.display = 'none';
@@ -171,30 +172,50 @@
 
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
+
+    // 뒤로가기 버튼으로 닫을 수 있도록 history state 추가
+    history.pushState({ tg6Modal: 'video' }, '');
+    historyPushed = true;
   }
 
-  function closeModal() {
+  // 실제 UI 정리만 수행 (history 조작 없음)
+  function closeUI() {
     modal.hidden = true;
     video.pause();
     video.removeAttribute('src');
     video.load();
     document.body.style.overflow = '';
+    historyPushed = false;
   }
+
+  // X 버튼/백드롭/ESC에서 호출 — history 상태 소비
+  function closeFromUI() {
+    if (historyPushed) {
+      history.back();   // popstate 발생 → closeUI 호출됨
+    } else {
+      closeUI();
+    }
+  }
+
+  // 폰의 뒤로가기 버튼 처리
+  window.addEventListener('popstate', () => {
+    if (!modal.hidden) closeUI();
+  });
 
   cards.forEach(card => {
     card.addEventListener('click', () => openModal(card));
   });
 
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeFromUI);
   modal.querySelectorAll('[data-close]').forEach(el => {
-    el.addEventListener('click', closeModal);
+    el.addEventListener('click', closeFromUI);
   });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !modal.hidden) closeModal();
+    if (e.key === 'Escape' && !modal.hidden) closeFromUI();
   });
 })();
 
-// 5. 사진 라이트박스 — 사진 클릭 시 확대
+// 5. 사진 라이트박스 — 사진 클릭 시 확대 (뒤로가기 지원)
 (function imageLightbox() {
   const lb = document.getElementById('imageLightbox');
   const img = document.getElementById('imageLightboxImg');
@@ -202,19 +223,42 @@
   const closeBtn = document.getElementById('imageLightboxClose');
   if (!lb || !img) return;
 
+  let historyPushed = false;
+
   function open(url, captionText) {
     img.src = url;
     img.alt = captionText || '';
     caption.textContent = captionText || '';
     lb.hidden = false;
     document.body.style.overflow = 'hidden';
+
+    // 뒤로가기 버튼으로 닫을 수 있도록 history state 추가
+    history.pushState({ tg6Modal: 'lightbox' }, '');
+    historyPushed = true;
   }
-  function close() {
+
+  // 실제 UI 정리만 (history 조작 없음)
+  function closeUI() {
     lb.hidden = true;
     img.removeAttribute('src');
     caption.textContent = '';
     document.body.style.overflow = '';
+    historyPushed = false;
   }
+
+  // X 버튼/백드롭/ESC — history 소비
+  function closeFromUI() {
+    if (historyPushed) {
+      history.back();
+    } else {
+      closeUI();
+    }
+  }
+
+  // 폰의 뒤로가기 버튼 처리
+  window.addEventListener('popstate', () => {
+    if (!lb.hidden) closeUI();
+  });
 
   function getBgUrl(el) {
     const bg = el.style.backgroundImage || getComputedStyle(el).backgroundImage || '';
@@ -227,18 +271,17 @@
   document.querySelectorAll(selectors).forEach(el => {
     el.addEventListener('click', () => {
       const url = getBgUrl(el);
-      if (!url) return; // 실제 이미지 없는 카드는 무시
-      // 캡션: 같은 카드 안의 h3 또는 p 텍스트
+      if (!url) return;
       const card = el.closest('.why-card, .photo-card');
       const captionText = card?.querySelector('h3, p')?.textContent.trim() || '';
       open(url, captionText);
     });
   });
 
-  if (closeBtn) closeBtn.addEventListener('click', close);
-  lb.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+  if (closeBtn) closeBtn.addEventListener('click', closeFromUI);
+  lb.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeFromUI));
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !lb.hidden) close();
+    if (e.key === 'Escape' && !lb.hidden) closeFromUI();
   });
 })();
 
