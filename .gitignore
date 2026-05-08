@@ -1,0 +1,15 @@
+# 사진 원본 폴더 (웹사이트는 평면화된 파일을 사용하므로 GitHub에 올릴 필요 없음)
+images/1. Vi sao chon xuong 6/
+images/2. Khám phá thêm/
+
+# 임시/카카오톡 파일
+images/KakaoTalk_*
+
+# OS 임시 파일
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# 에디터 설정
+.vscode/
+.idea/
