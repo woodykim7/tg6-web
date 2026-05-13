@@ -345,63 +345,71 @@
         </div>
       </section>
 
-      <!-- ===== 4. THU NHẬP THỰC TẾ (탭 인터랙션) ===== -->
+      <!-- ===== 4. THU NHẬP & PHÚC LỢI ===== -->
       <section class="income-section" id="income">
-        <h2 class="section-title light">Thu nhập thực tế</h2>
-        <p class="section-sub light">Bấm vào từng vị trí để xem chi tiết</p>
+        <h2 class="section-title light">Thu nhập &amp; phúc lợi</h2>
+        <p class="section-sub light">
+          Ngoài mức lương hấp dẫn, có thể nhận thêm các khoản thưởng sau tùy thời điểm<br>
+          <em>Beside the attractive salary, additional bonus may also be received (depending on the period)</em>
+        </p>
 
-        <div class="income-grid">
-          <button class="income-card big-dark" data-income="new">
-            <span class="role">CÔNG NHÂN MỚI</span>
-            <span class="amount">7 - 9 <small>triệu/tháng</small></span>
-            <span class="hint">Lương cơ bản + thưởng cơ bản</span>
-          </button>
-
-          <button class="income-card orange" data-income="experienced">
-            <span class="role">CÔNG NHÂN<br>KINH NGHIỆM</span>
-            <span class="amount">10 - 13 <small>tr</small></span>
-            <span class="hint">+ Thưởng năng suất + tăng ca</span>
-          </button>
-
-          <button class="income-card orange" data-income="quality">
-            <span class="role">THƯỞNG SẢN LƯỢNG<br>CÁ NHÂN</span>
-            <span class="amount">1.5 - 2.5 <small>tr</small></span>
-            <span class="hint">Cao nhất / tháng</span>
-          </button>
-
-          <button class="income-card big-dark" data-income="leader">
-            <span class="role">TỔ TRƯỞNG / CHUYỀN TRƯỞNG</span>
-            <span class="amount">15 - 20 <small>triệu/tháng</small></span>
-            <span class="hint">+ Phụ cấp quản lý</span>
-          </button>
-
-          <button class="income-card orange" data-income="referral">
-            <span class="role">GIỚI THIỆU<br>CÔNG NHÂN MAY</span>
-            <span class="amount">1 <small>tr</small></span>
-            <span class="hint">Sau khi ký HĐ</span>
-          </button>
-
-          <button class="income-card orange" data-income="referral2">
-            <span class="role">GIỚI THIỆU<br>(SAU 6 THÁNG)</span>
-            <span class="amount">6 <small>tr</small></span>
-            <span class="hint">Sau khi làm 6 tháng</span>
-          </button>
-        </div>
-
-        <!-- 클릭하면 나타나는 상세 패널 -->
-        <div class="income-detail" id="incomeDetail" hidden>
-          <button class="income-close" id="incomeClose" aria-label="Đóng">×</button>
-          <div class="income-detail-body">
-            <h3 id="incDetailTitle"></h3>
-            <div class="income-detail-amount" id="incDetailAmount"></div>
-            <p id="incDetailDesc"></p>
-            <ul id="incDetailList"></ul>
+        <!-- Block 1: 네이비 박스 - QCO + SPOT -->
+        <div class="bonus-card bonus-dark">
+          <div class="bonus-item">
+            <h3>THƯỞNG CHUYỂN ĐỔI MÃ HÀNG <em>(QCO)</em></h3>
+            <div class="bonus-amount">300,000 - 600,000 <small>người / lần</small></div>
+          </div>
+          <div class="bonus-divider"></div>
+          <div class="bonus-item">
+            <h3>THƯỞNG CHUYỀN MAY NĂNG SUẤT CAO <em>(SPOT)</em></h3>
+            <div class="bonus-amount">300,000 - 650,000 <small>người / lần</small></div>
           </div>
         </div>
 
-        <p class="income-note">
-          ⚠️ Con số thực tế − công khai rõ minh bạch.<br>
-          Cập nhật mỗi cuối tháng dựa trên năng suất cá nhân.
+        <!-- Block 2: 오렌지 - 인센티브 -->
+        <div class="bonus-card bonus-orange">
+          <h3>THƯỞNG SẢN LƯỢNG CÁ NHÂN <em>(INCENTIVE)</em></h3>
+          <div class="bonus-row">
+            <span class="bonus-label">Trung bình <em>(average)</em></span>
+            <span class="bonus-value">500,000 <small>/ tháng</small></span>
+          </div>
+          <div class="bonus-row">
+            <span class="bonus-label">Mức cao <em>(high)</em></span>
+            <span class="bonus-value">1.8 - 3.0 <small>triệu / tháng</small></span>
+          </div>
+        </div>
+
+        <!-- Block 3: 오렌지 - 소개한 사람에게 -->
+        <div class="bonus-card bonus-orange">
+          <h3>GIỚI THIỆU CÔNG NHÂN MAY <em>(INTRODUCTION NEW WORKER)</em></h3>
+          <p class="bonus-subtitle">cho công nhân giới thiệu <em>(for introducer worker)</em></p>
+          <div class="bonus-row">
+            <span class="bonus-value">1,000,000 <small>/ người</small></span>
+            <span class="bonus-when">sau khi ký HĐLĐ</span>
+          </div>
+          <div class="bonus-row">
+            <span class="bonus-value">6,000,000 <small>/ người</small></span>
+            <span class="bonus-when">13 tháng sau khi ký HĐLĐ</span>
+          </div>
+        </div>
+
+        <!-- Block 4: 오렌지 - 소개받은 사람에게 -->
+        <div class="bonus-card bonus-orange">
+          <h3>GIỚI THIỆU CÔNG NHÂN MAY <em>(INTRODUCTION NEW WORKER)</em></h3>
+          <p class="bonus-subtitle">cho công nhân may mới được giới thiệu <em>(for new worker who get introduced)</em></p>
+          <div class="bonus-row">
+            <span class="bonus-value">300,000 <small>/ người</small></span>
+            <span class="bonus-when">sau khi ký HĐLĐ</span>
+          </div>
+          <div class="bonus-row">
+            <span class="bonus-value">3,500,000 <small>/ người</small></span>
+            <span class="bonus-when">13 tháng sau ký HĐLĐ</span>
+          </div>
+        </div>
+
+        <p class="bonus-outro">
+          Ngoài ra còn có nhiều chương trình quà thưởng, phúc lợi hấp dẫn khác chờ đón bạn.<br>
+          <em>In addition, there are many other attractive reward programs and benefit waiting for you.</em>
         </p>
       </section>
 
