@@ -1003,6 +1003,32 @@ body {
   padding: 14px;
   border-radius: 12px;
 }
+.apply-address .address-link {
+  display: block;
+  margin-top: 4px;
+  color: var(--green-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+.apply-address .address-link:hover,
+.apply-address .address-link:active { color: var(--orange); }
+.apply-address .address-cta {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.apply-address .address-link:hover .address-cta,
+.apply-address .address-link:active .address-cta {
+  background: var(--orange);
+  transform: translateY(-1px);
+}
 
 /* 푸터 */
 .footer {
