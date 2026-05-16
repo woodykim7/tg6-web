@@ -259,7 +259,49 @@
   });
 })();
 
-// 5. 부드러운 스크롤 (앵커 링크)
+// 5. Zalo QR 모달 — Zalo 버튼 클릭 시 QR 표시 (뒤로가기 지원)
+(function zaloQrModal() {
+  const modal = document.getElementById('zaloModal');
+  if (!modal) return;
+  const triggers = document.querySelectorAll('[data-zalo-trigger]');
+
+  let historyPushed = false;
+
+  function openModal() {
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    history.pushState({ tg6Modal: 'zalo' }, '');
+    historyPushed = true;
+  }
+  function closeUI() {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    historyPushed = false;
+  }
+  function closeFromUI() {
+    if (historyPushed) history.back();
+    else closeUI();
+  }
+
+  window.addEventListener('popstate', () => {
+    if (!modal.hidden) closeUI();
+  });
+
+  triggers.forEach(t => {
+    t.addEventListener('click', e => {
+      e.preventDefault();
+      openModal();
+    });
+  });
+  modal.querySelectorAll('[data-close]').forEach(el => {
+    el.addEventListener('click', closeFromUI);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !modal.hidden) closeFromUI();
+  });
+})();
+
+// 6. 부드러운 스크롤 (앵커 링크)
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);

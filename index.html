@@ -87,7 +87,7 @@
           <p class="events-loading">Đang tải video TikTok…</p>
         </div>
 
-        <a href="https://www.tiktok.com/@tg6.xuong"
+        <a href="https://www.tiktok.com/@user783823208818"
            target="_blank" rel="noopener"
            class="tiktok-follow-btn">
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -445,7 +445,7 @@
               <em>02736251320 (bấm 5620)</em>
             </div>
           </a>
-          <a href="https://zalo.me/0123456789" class="apply-zalo">
+          <a href="#zalo" class="apply-zalo" data-zalo-trigger>
             <span class="apply-icon">💬</span>
             <div>
               <strong>Zalo</strong>
@@ -478,10 +478,31 @@
       <a href="tel:02736251320,5620" class="fab fab-phone" aria-label="Gọi điện 02736251320 ext 5620">
         <span>📞</span>
       </a>
-      <a href="https://zalo.me/0123456789" class="fab fab-zalo" aria-label="Zalo">
+      <a href="#zalo" class="fab fab-zalo" aria-label="Zalo - Quét mã QR" data-zalo-trigger>
         <span>Z</span>
       </a>
       <a href="#apply" class="fab fab-apply">NỘP ĐƠN NGAY</a>
+    </div>
+
+    <!-- Zalo QR 모달 -->
+    <div class="zalo-modal" id="zaloModal" hidden>
+      <div class="zalo-modal-backdrop" data-close></div>
+      <div class="zalo-modal-inner">
+        <button class="zalo-modal-close" data-close aria-label="Đóng">×</button>
+        <h3 class="zalo-modal-title">💬 Chat với TG6 trên Zalo</h3>
+        <div class="zalo-qr-wrap">
+          <img src="images/zalo-qr.png" alt="Zalo QR Code TG6"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+          <div class="zalo-qr-fallback" style="display:none">
+            <span>📷</span>
+            <p>QR sẽ được cập nhật</p>
+          </div>
+        </div>
+        <p class="zalo-modal-hint">
+          📱 Mở app Zalo → Quét mã QR<br>
+          <em>Open Zalo app and scan this QR code</em>
+        </p>
+      </div>
     </div>
 
     <!-- 사진 라이트박스 (사진 클릭 시 확대) -->
