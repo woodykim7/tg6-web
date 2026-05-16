@@ -35,6 +35,82 @@
   });
 })();
 
+// 2.5. TikTok 이벤트 피드 — data/events.json 읽어서 표시
+(function eventsTikTokFeed() {
+  const list = document.getElementById('eventsList');
+  if (!list) return;
+
+  function extractVideoId(url) {
+    const m = String(url || '').match(/\/video\/(\d+)/);
+    return m ? m[1] : '';
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function formatDate(iso) {
+    // YYYY-MM-DD -> DD/MM/YYYY (Vietnamese style)
+    const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+  }
+
+  function renderCard(ev) {
+    const id = extractVideoId(ev.tiktokUrl);
+    if (!id) return '';
+    const url = escapeHtml(ev.tiktokUrl);
+    const dateStr = escapeHtml(formatDate(ev.date));
+    const title = ev.title ? `<h3 class="event-title">${escapeHtml(ev.title)}</h3>` : '';
+    const caption = ev.caption ? `<p class="event-caption">${escapeHtml(ev.caption)}</p>` : '';
+    return `
+      <article class="event-card">
+        <header class="event-header">
+          <span class="event-date">📅 ${dateStr}</span>
+          ${title}
+        </header>
+        <blockquote class="tiktok-embed"
+                    cite="${url}"
+                    data-video-id="${id}"
+                    style="max-width:605px;min-width:325px;margin:0;">
+          <section><a target="_blank" rel="noopener" href="${url}">Xem trên TikTok</a></section>
+        </blockquote>
+        ${caption}
+      </article>
+    `;
+  }
+
+  fetch('data/events.json?t=' + Date.now())
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(events => {
+      if (!Array.isArray(events) || events.length === 0) {
+        list.innerHTML = '<p class="events-loading">Chưa có sự kiện nào — sẽ cập nhật sớm.</p>';
+        return;
+      }
+      // 최신 순 정렬
+      events.sort((a, b) => new Date(b.date) - new Date(a.date));
+      list.innerHTML = events.map(renderCard).join('');
+
+      // TikTok embed.js 로드 (이미 있으면 재처리만)
+      if (window.tiktokEmbed && window.tiktokEmbed.lib && typeof window.tiktokEmbed.lib.render === 'function') {
+        window.tiktokEmbed.lib.render();
+      } else {
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.tiktok.com/embed.js';
+        document.body.appendChild(s);
+      }
+    })
+    .catch(err => {
+      console.error('events.json 로드 실패:', err);
+      list.innerHTML = '<p class="events-error">Không thể tải sự kiện. Vui lòng thử lại sau.</p>';
+    });
+})();
+
 // 3. 비디오 카드 — 클릭 시 모달에서 영상 재생 (뒤로가기 지원)
 (function voiceCards() {
   const cards = document.querySelectorAll('.voice-card');
