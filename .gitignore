@@ -3,9 +3,8 @@ images/1. Vi sao chon xuong 6/
 images/2. Khám phá thêm/
 images/3. Video/
 
-# TikTok 업로드용 임시 영상 (사이트는 TikTok embed로 연결하므로 GitHub에 올릴 필요 없음)
+# TikTok 업로드용 원본 (사이트에서 사용 안 함)
 videos/hay.mp4
-videos/hay-tiktok-*.mp4
 
 # 임시/카카오톡 파일
 images/KakaoTalk_*
