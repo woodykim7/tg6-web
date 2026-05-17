@@ -5,6 +5,8 @@ images/3. Video/
 
 # TikTok 업로드용 원본 (사이트에서 사용 안 함)
 videos/hay.mp4
+# TikTok 원본 사진 폴더 (압축 결과물만 videos/ 에 commit)
+tiktok용 사진 및 비디오/
 
 # 임시/카카오톡 파일
 images/KakaoTalk_*
