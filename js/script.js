@@ -41,7 +41,8 @@
   if (!list) return;
 
   function extractVideoId(url) {
-    const m = String(url || '').match(/\/video\/(\d+)/);
+    // TikTok video (/video/ID) and photo carousel (/photo/ID) both supported
+    const m = String(url || '').match(/\/(?:video|photo)\/(\d+)/);
     return m ? m[1] : '';
   }
 
